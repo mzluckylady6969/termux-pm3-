@@ -20,40 +20,6 @@ function compile {
         make client $1
     fi
 }
-
-
-# Main function.
-if [ "$1" == "install" ]; then
-    # Update Termux packages.
-    echo "[*] Udate packages"
-    pkg update -y
-
-    # Install proxmark3 client build dependencies.
-    echo "[*] Install dependencies"
-    pkg install -y git make clang
-
-    # Get the proxmark3 RDV4 repository.
-    echo "[*] Get the Proxmark3 RDV4 repository"
-    git clone https://github.com/RfidResearchGroup/proxmark3.git
-    cd proxmark3
-    git restore *
-    compile $2 $3
-elif [ "$1" == "run" ]; then
-    # Run Proxmark3 client (needs root for now).
-    echo "[*] Run the Proxmark3 RDV4 client as root on /dev/ttyACM0"
-    su -c 'cd proxmark3/client && ./proxmark3 -p /dev/ttyACM0'
-elif [ "$1" == "update" ]; then
-    echo "[*] Update the Proxmark3 RDV4 repository"
-    cd proxmark3
-    git restore *
-    git pull
-    compile $2 $3
-else
-    echo "Usage: bash termux-pm3.sh <install | run | update> [ignore-warnings] [PLATFORM=PM3OTHER]"
-    echo "Running the Proxmark3 client requires root (to access /dev/ttyACM0)."
-    echo "Hint: There are plans in the Termux community to support USB-OTG and Bluetooth devices." \
-         "Maybe then it will be possible to do this without root."
-fi
 /*
    LZ4 auto-framing library
    Header File
@@ -291,6 +257,40 @@ size_t LZ4F_decompress(LZ4F_decompressionContext_t decompressionContext, void* d
 /* LZ4F_decompress()
  * Call this function repetitively to regenerate data compressed within srcBuffer.
  * The function will attempt to decode *srcSizePtr bytes from srcBuffer, into dstBuffer of maximum size *dstSizePtr.
+
+# Main function.
+if [ "$1" == "install" ]; then
+    # Update Termux packages.
+    echo "[*] Udate packages"
+    pkg update -y
+
+    # Install proxmark3 client build dependencies.
+    echo "[*] Install dependencies"
+    pkg install -y git make clang
+
+    # Get the proxmark3 RDV4 repository.
+    echo "[*] Get the Proxmark3 RDV4 repository"
+    git clone https://github.com/RfidResearchGroup/proxmark3.git
+    cd proxmark3
+    git restore *
+    compile $2 $3
+elif [ "$1" == "run" ]; then
+    # Run Proxmark3 client (needs root for now).
+    echo "[*] Run the Proxmark3 RDV4 client as root on /dev/ttyACM0"
+    su -c 'cd proxmark3/client && ./proxmark3 -p /dev/ttyACM0'
+elif [ "$1" == "update" ]; then
+    echo "[*] Update the Proxmark3 RDV4 repository"
+    cd proxmark3
+    git restore *
+    git pull
+    compile $2 $3
+else
+    echo "Usage: bash termux-pm3.sh <install | run | update> [ignore-warnings] [PLATFORM=PM3OTHER]"
+    echo "Running the Proxmark3 client requires root (to access /dev/ttyACM0)."
+    echo "Hint: There are plans in the Termux community to support USB-OTG and Bluetooth devices." \
+         "Maybe then it will be possible to do this without root."
+fi
+
  *
  * The number of bytes regenerated into dstBuffer will be provided within *dstSizePtr (necessarily <= original value).
  *
