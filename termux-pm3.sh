@@ -31,7 +31,7 @@ if [ "$1" == "install" ]; then
 
     # Install proxmark3 client build dependencies.
     echo "[*] Install dependencies"
-    pkg install -y git make clang sudo apt-get install --no-install-recommends git ca-certificates build-essential pkg-config \
+    apt install -y git make clang sudo apt-get install --no-install-recommends git ca-certificates build-essential pkg-config \
 libreadline-dev gcc-arm-none-eabi libnewlib-dev qtbase5-dev \
 libbz2-dev liblz4-dev libbluetooth-dev libpython3-dev libssl-dev libgd-dev
 
