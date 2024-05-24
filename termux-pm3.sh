@@ -14,7 +14,7 @@ libbz2-dev liblz4-dev libbluetooth-dev libpython3-dev libssl-dev libgd-dev
     git clone https://github.com/RfidResearchGroup/proxmark3.git
     git  clone https://github.comlz4/lz4
     cd lz4
-    make install
+    make 
 
 function compile {
     if [ "$1" == "ignore-warnings" ]; then
