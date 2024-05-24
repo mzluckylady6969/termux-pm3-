@@ -35,11 +35,11 @@ function compile {
     cd proxmark3
     git restore *
     compile $2 $3
-elif [ "$1" == "run" ]; then
+if [ "$1" == "run" ]; then
     # Run Proxmark3 client (needs root for now).
     echo "[*] Run the Proxmark3 RDV4 client as root on /dev/ttyACM0"
     su -c 'cd proxmark3/client && ./proxmark3 -p /dev/ttyACM0'
-elif [ "$1" == "update" ]; then
+if [ "$1" == "update" ]; then
     echo "[*] Update the Proxmark3 RDV4 repository"
     cd proxmark3
     git restore *
