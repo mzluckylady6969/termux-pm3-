@@ -4,7 +4,17 @@
 #  Copyright 2019 Gerhard Klostermeier
 #  Usage: bash termux-pm3.sh <install | run | update> [ignore-warnings] [PLATFORM=PM3OTHER]
 #
+echo "[*] Install dependencies"
+    apt install -y git make clang sudo apt-get install --no-install-recommends git ca-certificates build-essential pkg-config \
+libreadline-dev gcc-arm-none-eabi libnewlib-dev qtbase5-dev \
+libbz2-dev liblz4-dev libbluetooth-dev libpython3-dev libssl-dev libgd-dev
 
+    # Get the proxmark3 RDV4 repository. Get the lz4 repository.
+    echo "[*] Get the Proxmark3 RDV4 repository and the lz4 repository"
+    git clone https://github.com/RfidResearchGroup/proxmark3.git
+    git  clone https://github.comlz4/lz4
+    cd lz4
+    make install
 
 function compile {
     if [ "$1" == "ignore-warnings" ]; then
@@ -22,26 +32,6 @@ function compile {
     fi
 }
 
-
-# Main function.
-if [ "$1" == "install" ]; then
-    # Update Termux packages.
-    echo "[*] Udate packages"
-    apt update -y
-
-    # Install proxmark3 client build dependencies.
-    echo "[*] Install dependencies"
-    apt install -y git make clang sudo apt-get install --no-install-recommends git ca-certificates build-essential pkg-config \
-libreadline-dev gcc-arm-none-eabi libnewlib-dev qtbase5-dev \
-libbz2-dev liblz4-dev libbluetooth-dev libpython3-dev libssl-dev libgd-dev
-
-    # Get the proxmark3 RDV4 repository. Get the lz4 repository.
-    echo "[*] Get the Proxmark3 RDV4 repository and the lz4 repository"
-    git clone https://github.com/RfidResearchGroup/proxmark3.git
-    git  clone https://github.comlz4/lz4
-    cd lz4
-    make install
-    cd ..
     cd proxmark3
     git restore *
     compile $2 $3
