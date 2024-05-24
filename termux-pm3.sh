@@ -26,15 +26,21 @@ function compile {
 if [ "$1" == "install" ]; then
     # Update Termux packages.
     echo "[*] Udate packages"
-    pkg update -y
+    apt update -y
 
     # Install proxmark3 client build dependencies.
     echo "[*] Install dependencies"
-    pkg install -y git make clang
+    apt install -y git make clang sudo apt-get install --no-install-recommends git ca-certificates build-essential pkg-config \
+libreadline-dev gcc-arm-none-eabi libnewlib-dev qtbase5-dev \
+libbz2-dev liblz4-dev libbluetooth-dev libpython3-dev libssl-dev libgd-dev libc++ binutils readline 
 
     # Get the proxmark3 RDV4 repository.
     echo "[*] Get the Proxmark3 RDV4 repository"
     git clone https://github.com/RfidResearchGroup/proxmark3.git
+    got clone https://github.com/lz4/lz4
+    cd lz4
+    make install 
+    cd ..
     cd proxmark3
     git restore *
     compile $2 $3
