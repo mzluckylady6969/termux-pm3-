@@ -3,25 +3,6 @@
 #  Copyright 2019 Gerhard Klostermeier
 #  Usage: bash termux-pm3.sh <install | run | update> [ignore-warnings] [PLATFORM=PM3OTHER]
 #
-
-
-function compile {
-    if [ "$1" == "ignore-warnings" ]; then
-        # Allow warnings (needed on Android 5.x, 7.x, not needed on 8.x).
-        echo "[*] Removing the -Werror flag from Makefiles"
-        sed -i 's/-Werror //g' client/Makefile
-        sed -i 's/-Werror //g' Makefile.host
-        # Make the proxmark3 client.
-        echo "[*] Compiling the client"
-        make client $2
-    else
-        # Make the proxmark3 client.
-        echo "[*] Compiling the client"
-        make client $1
-    fi
-}
-
-
 # Main function.
 if [ "$1" == "install" ]; then
     # Update Termux packages.
@@ -55,6 +36,19 @@ elif [ "$1" == "update" ]; then
     git pull
     compile $2 $3
 else
+        # Allow warnings (needed on Android 5.x, 7.x, not needed on 8.x).
+        echo "[*] Removing the -Werror flag from Makefiles"
+        sed -i 's/-Werror //g' client/Makefile
+        sed -i 's/-Werror //g' Makefile.host
+        # Make the proxmark3 client.
+        echo "[*] Compiling the client"
+        make client $2
+    else
+        # Make the proxmark3 client.
+        echo "[*] Compiling the client"
+        make client $1
+    fi
+}
     echo "Usage: bash termux-pm3.sh <install | run | update> [ignore-warnings] [PLATFORM=PM3OTHER]"
     echo "Running the Proxmark3 client requires root (to access /dev/ttyACM0)."
     echo "Hint: There are plans in the Termux community to support USB-OTG and Bluetooth devices." \
